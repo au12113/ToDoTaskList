@@ -1,57 +1,44 @@
-var express = require('express');
-var app = express();
-var fs = require('fs')
-// var bodyParser = require('body-parser')
-var tasks = require('./tasks.json')
+var express = require('express')
+var app = express()
 
-// app.use(bodyParser)
+var mongoose = require('mongoose')
+var bodyParser = require('body-parser')
 
-//
-app.get('/', function (req, res) {
-  res.status(200).send('HELLO');
-  // console.log('Hello')
-});
+var Tasks = require('./models/tasks')
 
-// view all items in the list
-app.get('/all-tasks/', function (req, res) {
-  res.status(200).send(JSON.stringify(tasks))
-});
+const PORT = process.env.PORT || 3000
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://ds127771.mlab.com:27771/meat'
 
-// view specific item in list
-app.get('/tasks/:id', function (req, res) {
-  var task_id = req.param('id');
-  for (var i = 0; i < tasks.length; i++) {
-    console.log('i = ' + i)
-    if (tasks[i].id == task_id) {
-      return res.status(200).send(tasks[i]);
-    }
-  }
-  return res.sendStatus(404)
-});
+app.use(bodyParser.json())
 
-// add item to list
-app.post('/add', function (req, res) {
-  var task = {
-    'id': req.param('id'),
-    'subject': req.param('subject'),
-    'description': req.param('description'),
-    'done': false
-  }
-  // console.log(task)
-  for (var i = 0; i < tasks.length; i++) {
-    if (tasks[i].id == task.id) {
-      return res.status(409)
-    }
-  }
-  tasks.push(task)
-  fs.writeFile('./tasks.json', JSON.stringify(tasks), function (err) {
-    if (err) {
-      console.log(err);
-      return res.status(404)
-    }
-    res.status(201).send('added task.')
-    console.log("The file was saved!");
-  })
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    user: 'someone',
+    pass: '6characters'
 })
 
-app.listen(3000);
+app.get('/', function(req, res) {
+    Tasks.find().exec(function(err, objects) {
+        if(err) {
+            return res.sendStatus(500)
+        }
+        res.jsonp(objects)
+    })
+})
+
+app.post('/add', function(req, res) {
+    var newTask = new Tasks({
+        subject : req.params.subject,
+        description: req.params.description,
+        status: false
+    })
+    newTask.save(function(err, task) {
+        if(err) { 
+            return res.sendStatus(500)
+        }
+        console.log(task._id)
+        return res.sendStatus(201)
+    })
+})
+
+app.listen(PORT)
