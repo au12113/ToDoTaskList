@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://ds127771.mlab.com:27771/meat'
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -42,8 +43,8 @@ app.get('/tasks/:id', function (req, res) {
 // add new task with false status
 app.post('/tasks', function (req, res) {
   var newTask = new Tasks({
-    subject: req.query.subject,
-    description: req.query.description,
+    subject: req.body.subject,
+    description: req.body.description,
     status: false
   })
   newTask.save(function (err, task) {
@@ -58,7 +59,7 @@ app.post('/tasks', function (req, res) {
 // edit task detail
 app.patch('/tasks/:id', function (req, res) {
   Tasks.findByIdAndUpdate(req.params.id, {
-    $set: {},
+    $set: req.body,
     $inc: {
       __v: 1
     }
