@@ -3,6 +3,7 @@ var app = express()
 
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
+var methods = require('./allowMethods')
 
 var Tasks = require('./models/tasks')
 
@@ -17,6 +18,11 @@ mongoose.connect(MONGODB_URI, {
   user: 'someone',
   pass: '6characters'
 })
+
+// define allow methods each path
+app.all('/tasks',methods())
+app.all('/tasks/:id', methods(['GET','POST','DELETE','PATCH']))
+app.all('/tasks/:id/status', methods(['POST']))
 
 // get all tasks
 app.get('/tasks', function (req, res) {
