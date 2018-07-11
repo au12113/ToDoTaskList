@@ -20,9 +20,9 @@ mongoose.connect(MONGODB_URI, {
 })
 
 // define allow methods each path
-app.all('/tasks',methods())
+app.all('/tasks',methods(['GET', 'POST']))
 app.all('/tasks/:id', methods(['GET','POST','DELETE','PATCH']))
-app.all('/tasks/:id/status', methods(['POST']))
+app.all('/tasks/:id/status', methods(['PATCH']))
 
 // get all tasks
 app.get('/tasks', function (req, res) {
@@ -51,7 +51,7 @@ app.post('/tasks', function (req, res) {
   var newTask = new Tasks({
     subject: req.body.subject,
     description: req.body.description,
-    status: false
+    status: req.body.status || false
   })
   newTask.save(function (err, task) {
     if (err) {
@@ -86,7 +86,7 @@ app.patch('/tasks/:id', function (req, res) {
 app.patch('/tasks/:id/status', function (req, res) {
   Tasks.findByIdAndUpdate(req.params.id, {
     $set: {
-      status: true
+      status: req.body.status || true
     },
     $inc: {
       __v: 1
