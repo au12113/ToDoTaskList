@@ -72,6 +72,7 @@ View a single task in the list
   `GET`
 
 - **URL Params**
+
   | Data Parameter | Description | 
   | -------------- | --------- | 
   | subject | Object id | 
@@ -117,6 +118,7 @@ Add a task to the list
   `POST`
 
 - **URL Params**
+
   None
 
 - **Data Params**
@@ -151,6 +153,7 @@ Edit existing task( subject, description and status).
   `PATCH`
 
 - **URL Params**
+
   | Data Parameter | Description | 
   | -------------- | --------- | 
   | subject | Object id | 
