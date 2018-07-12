@@ -1,26 +1,40 @@
-**Show All Task**
-----
-  Returns all tasks in json.
+# Setup API
+### install dependencies
+ ```
+ npm install
+ ```
+ ### run service at port 3000
+ ```
+ npm start
+ or
+ node index.js
+ ```
+---
+# API Document
 
-* **URL**
+## **Show All Task**
+
+View all items in the list.
+
+- **URL**
 
   /tasks
 
-* **Method:**
+- **Method:**
 
   `GET`
-  
-*  **URL Params**
+
+- **URL Params**
   None
 
-* **Data Params**
+- **Data Params**
 
   None
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 200
-    **Content:** 
+  - **Code:** 200
+    **Content:**
     ```
     [
       {
@@ -33,40 +47,43 @@
       ...
     ]
     ```
- 
-* **Error Response:**
 
-  * **Code:** 404 NOT FOUND
-  
+- **Error Response:**
+  `
+
+  - **Code:** 404 `NOT FOUND`
+
   OR
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br>
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br>
 
-***
+---
 
-**Show Task**
-----
-  Returns a single task.
+## **Show Task**
 
-* **URL**
+View a single task in the list
+
+- **URL**
 
   /tasks/<span style="color:blue">{:id}</span>
 
-* **Method:**
+- **Method:**
 
   `GET`
-  
-*  **URL Params**
-  id = [object id]
 
-* **Data Params**
+- **URL Params**
+  | Data Parameter | Description | 
+  | -------------- | --------- | 
+  | subject | Object id | 
+
+- **Data Params**
 
   None
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 200
-    **Content:** 
+  - **Code:** 200 `OK`
+    **Content:**
     ```
     {
       "_id": "5b3fc027fb6fc021751c70ef",
@@ -76,41 +93,80 @@
       "__v": 3
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 404 NOT FOUND
-  
+- **Error Response:**
+
+  - **Code:** 404 `NOT FOUND`
+
   OR
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br />
 
-***
+---
 
-**Add New Task**
-----
-  Add a task to server with .
+## **Add New Task**
 
-* **URL**
+Add a task to the list
 
-  /tasks/
+- **URL**
 
-* **Method:**
+  /tasks
+
+- **Method:**
 
   `POST`
-  
-*  **URL Params**
+
+- **URL Params**
   None
 
-* **Data Params**
+- **Data Params**
 
-  subject = [String]
-  description = [String]
+  |  Data Parameter | Data type  |  Default |
+  |---|---|---|
+  | subject | String | - |
+  | description | String | - |
+  | status | Boolean| false|
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 201
-    **Content:** 
+  - **Code:** 201 `Created`
+    **Content:** None
+
+- **Error Response:**
+
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br />
+
+---
+
+## **Edit Existing Task**
+
+Edit existing task( subject, description and status).
+
+- **URL**
+
+  /tasks/<span style="color:blue">{:id}</span>
+
+- **Method:**
+
+  `PATCH`
+
+- **URL Params**
+  | Data Parameter | Description | 
+  | -------------- | --------- | 
+  | subject | Object id | 
+
+- **Data Params**
+
+  | Data Parameter | Data type | Default |
+  | -------------- | --------- | ------- |
+  | subject | String | - |
+  | description |  String | - |
+  | status | Boolean| false|
+
+- **Success Response:**
+
+  - **Code:** 200 `OK`
+    **Content:** task detail before update.
     ```
     {
       "_id": "5b3fc027fb6fc021751c70ef",
@@ -120,13 +176,98 @@
       "__v": 3
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 404 NOT FOUND
-  
+- **Error Response:**
+
+  - **Code:** 404 `NOT FOUND`
+
   OR
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br />
 
-***
+---
+
+## **Set Task Status**
+
+Set the task status.
+
+- **URL**
+
+  /tasks/<span style="color:blue">{:id}</span>/status
+
+- **Method:**
+
+  `PATCH`
+
+- **URL Params**
+
+  | URL Parameter | Description |
+  | ------------- | --------- |
+  | id            | Object id |
+
+- **Data Params**
+
+  | Data Parameter | Data type | Default |
+  | -------------- | --------- | ------- |
+  | status         | Boolean   | false   |
+
+- **Success Response:**
+
+  - **Code:** 200 `OK`
+    **Content:** task detail before update.
+    ```
+    {
+      "_id": "5b3fc027fb6fc021751c70ef",
+      "subject": "work",
+      "description": "daily work",
+      "status": true,
+      "__v": 3
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 404 `NOT FOUND`
+
+  OR
+
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br />
+
+---
+
+## **Delete Task**
+
+Delete a task from the list
+
+- **URL**
+
+  /tasks/<span style="color:blue">{:id}</span>
+
+- **Method:**
+
+  `DELETE`
+
+- **URL Params**
+
+  | URL Parameter | Description   |
+  | ------------- | ----------- |
+  | id            | Object id |
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - **Code:** 200 `OK`
+    **Content:**  None
+
+- **Error Response:**
+
+  - **Code:** 404 `NOT FOUND`
+
+  OR
+
+  - **Code:** 500 `INTERNAL SERVER ERROR` <br />
+
+---
