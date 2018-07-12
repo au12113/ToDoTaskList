@@ -82,7 +82,7 @@ View a single task in the list
 
 - **Success Response:**
 
-  - **Code:** 200 `OK`
+  - **Code:** 200 `OK` <br />
     **Content:**
     ```
     {
@@ -165,7 +165,7 @@ Edit existing task( subject, description and status).
 
 - **Success Response:**
 
-  - **Code:** 200 `OK`
+  - **Code:** 200 `OK` <br />
     **Content:** task detail before update.
     ```
     {
@@ -213,7 +213,7 @@ Set the task status.
 
 - **Success Response:**
 
-  - **Code:** 200 `OK`
+  - **Code:** 200 `OK` <br />
     **Content:** task detail before update.
     ```
     {
@@ -259,7 +259,7 @@ Delete a task from the list
 
 - **Success Response:**
 
-  - **Code:** 200 `OK`
+  - **Code:** 200 `OK` <br />
     **Content:**  None
 
 - **Error Response:**
